@@ -13,35 +13,27 @@ ArrayList<Graph> graphs = new ArrayList<>();
 void setup() {
   size(603, 603);
   textSize(32);
-  noStroke();
 }
 
 void draw() {
   fill(256, 256, 256);
+  background(200);
   
   for (int g = 0; g < graphs.size() && !graphs.isEmpty(); g++) {
-    graphs.get(g).drawGraph();
+    Graph thisGraph = graphs.get(g);
+    //for (int n = 0; n < thisGraph.getNodes().size() && !thisGraph.getNodes().isEmpty(); n++) {
+    //  GraphNode thisNode = thisGraph.getNodes().get(n);
+    //  double distance = Math.sqrt(Math.pow((thisNode.xPos + thisNode.yPos), 2) + Math.pow((mouseX + mouseY), 2));
+    //  text(20, distance, 100, 100);
+    //  if (distance < 30) {
+    //    thisNode.selected = true;
+    //  }
+    //}
+    thisGraph.drawGraph();
   }
 }
 
 void mouseClicked() {
-  //if(lastPosX != 0 && lastPosY != 0) {
-  //  line(lastPosX, lastPosY, mouseX, mouseY);
-  //}
-
-  //fill(0, 0, 0);
-  //circle(mouseX, mouseY, 20);
-  //fill(255, 255, 255);
-  //text(alphabet[letterIndex], mouseX, mouseY);
-  //if(letterIndex == 25) {
-  //  letterIndex = 0;
-  //}
-  //else {
-  //  letterIndex++;
-  //}
-  //lastPosX = mouseX;
-  //lastPosY = mouseY;
-  
   if (newMode) {
     graphs.add(new Graph());
     newMode = false;

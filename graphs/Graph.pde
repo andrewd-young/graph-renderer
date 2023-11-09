@@ -10,6 +10,10 @@ public class Graph {
     nodes.add(new GraphNode(x, y, l, cN));
   }
   
+   public ArrayList<GraphNode> getNodes() {
+    return nodes;
+  }
+  
   public void drawGraph() {
     for (int n = 0; n < nodes.size() && !nodes.isEmpty(); n++) {
       GraphNode g = nodes.get(n);
