@@ -3,7 +3,7 @@ import java.util.stream.Collectors;
 ArrayList<Node> nodes;
 ArrayList<PVector> edges;
 Node selectedNode = null;
-Button dfsButton, bfsButton, clearButton;
+Button searchButton, clearButton;
 
 String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 int nextLetter = 0;
@@ -22,8 +22,7 @@ void setup() {
   edges = new ArrayList<PVector>();
   textSize(25);
   
-  dfsButton = new Button(25, 50, 100, 40, "DFS");
-  bfsButton = new Button(135, 50, 100, 40, "BFS");
+  searchButton = new Button(25, 50, 200, 40, "Traverse Graph");
   clearButton = new Button(25, 535, 70, 40, "Clear");
 }
 
@@ -41,8 +40,7 @@ void draw() {
   fill(200);
   if (selectedNode != null) {
     // Display buttons
-    dfsButton.display();
-    bfsButton.display();
+    searchButton.display();
     text("Starting at: " + alphabet[selectedNode.letter], 25, 35);
   }
   else {
@@ -56,7 +54,7 @@ void draw() {
   
   text(adjacencyString, 25, 120);
   
-  text(searchString, 245, 80);
+  text(searchString, 245, 35);
 }
 
 int findInsertIndex(ArrayList<Node> nodes, int letter) {
@@ -70,12 +68,9 @@ int findInsertIndex(ArrayList<Node> nodes, int letter) {
 }
 
 void mousePressed() {
-  if (dfsButton.isMouseOver()) {
-    searchString = "Depth First Search performed: " + search(Method.DFS).stream().map(Node::getLetter).collect(Collectors.joining(", "));
-    return;
-  }
-  if (bfsButton.isMouseOver()) {
-    searchString = "Breadth First Search performed: " + search(Method.BFS).stream().map(Node::getLetter).collect(Collectors.joining(", "));
+  if (searchButton.isMouseOver()) {
+    searchString = "Depth First Search performed: " + search(Method.DFS);
+    searchString += "\nBreadth First Search performed: " + search(Method.BFS);
     return;
   }
   if (clearButton.isMouseOver()) {
@@ -220,8 +215,10 @@ void BFS(Node v0, ArrayList<Node> visited) {
   }
 }
 
-ArrayList<Node> search(Method m) {
+String search(Method m) {
   ArrayList<Node> visitedNodes = new ArrayList<>();
+  
+  long startTime = System.nanoTime();
 
   switch(m) {
     case DFS:
@@ -231,6 +228,10 @@ ArrayList<Node> search(Method m) {
       BFS(selectedNode, visitedNodes);
       break;
   }
+  
+  long endTime = System.nanoTime();
 
-  return visitedNodes;
+  float duration = (endTime - startTime)/1000000.0; 
+
+  return visitedNodes.stream().map(Node::getLetter).collect(Collectors.joining(", ")) + "\n Time: " + duration + "ms";
 }
